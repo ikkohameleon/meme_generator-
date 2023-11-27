@@ -1,0 +1,30 @@
+from PIL import Image, ImageDraw, ImageFont
+
+print('Генератор мемов запущен!')
+text_type = int(input('Введите цифру 1, если нужен только верхний текст, или 2, если нужен и верхний и нижний текст.'))
+if text_type == 1:
+    top_text = ''
+    bottom_text = input('Введите верхний текст')
+elif text_type == 2:
+    top_text = input('Введите нижний текст')
+    bottom_text = input('Введите верхний текст')
+else:
+    print('Такого типа нет')
+print(top_text, bottom_text)
+
+image = Image.open('Кот в очках (1).png')
+width, height = image.size
+
+draw = ImageDraw.Draw(image)
+
+font = ImageFont.truetype('arial.ttf', size=70)
+
+text = draw.textbbox((0, 0),top_text, font)
+
+draw.text(((width - text[2]) / 2, 10), top_text, font=font, fill='black')
+
+ext = draw.textbbox((0, 0),bottom_text, font)
+
+draw.text(((width - text[2]) / 2, height - text[3] - 10), bottom_text, font=font, fill='black')
+
+image.save('new meme.jpg')
